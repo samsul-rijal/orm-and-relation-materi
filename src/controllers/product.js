@@ -1,5 +1,5 @@
 // import necessary model here
-const { product, user } = require("../../models");
+const { product, user, category, productCategory } = require("../../models");
 
 exports.getProduct = async (req, res) => {
   try {
@@ -12,7 +12,20 @@ exports.getProduct = async (req, res) => {
             exclude: ["createdAt", "updatedAt", "password"],
           },
         },
+
         // code here
+        {
+          model: category,
+          as: "categories",
+          throught: {
+            model: productCategory,
+            as: "bridge",
+            attributes: []
+          },
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "idUser"],
+          },
+        }
       ],
       attributes: {
         exclude: ["createdAt", "updatedAt", "idUser"],
